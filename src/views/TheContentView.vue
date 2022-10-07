@@ -2,13 +2,13 @@
     <main class="content-wrapper">
         <Suspense>
         <div class="cards-wrapper">
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
+            <!-- <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
                 <template #title>TestTitle</template>
                 <template #rating>3.99</template>
                 <template #distance>TestDistance</template>
                 <template #date-range>Jan. 1-9</template>
                 <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
+            </TheCard> -->
             <TheCard v-for ='listing of listings' :key="listing.id" :img=listing.image>
                 <template #title>{{listing.title}}</template>
                 <template #rating>{{listing.rating}}</template>
