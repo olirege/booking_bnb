@@ -7,7 +7,7 @@
             </div>
             <BIconHeart class="card-image-like-btn"></BIconHeart>
             <!-- <div class="image"><img :src="`/images/${img}`"/></div> -->
-            <div class="image"><img :src="getImage(img)"/></div>
+            <div class="image"><img v-if="img" :src="getImage(img)"/></div>
             <div class="images-index">
                 <BIconCircleFill></BIconCircleFill>
                 <BIconCircleFill></BIconCircleFill>

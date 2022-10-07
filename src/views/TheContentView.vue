@@ -8,11 +8,18 @@
             <template #date-range>Jan. 1-9</template>
             <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
         </TheCard> -->
-        <TheCard v-for ='listing of listings' :key="listing.id" :img=listing.image>
-            <template #title>{{listing.title}}</template>
-            <template #rating>{{listing.rating}}</template>
-            <template #price>{{formatToCurrency(listing.pricePerNight)}}</template>
-        </TheCard>
+        <Suspense>
+            <TheCard v-for ='listing of listings' :key="listing.id" :img=listing.image>
+                <template #title>{{listing.title}}</template>
+                <template #rating>{{listing.rating}}</template>
+                <template #price>{{formatToCurrency(listing.pricePerNight)}}</template>
+            </TheCard>
+            <template #fallback>
+                <div class="loading">
+                    <h1> is loading</h1>
+                </div>
+            </template>
+        </Suspense>
     </div>
     </main>
 </template>
