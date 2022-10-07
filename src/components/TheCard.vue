@@ -50,7 +50,7 @@ export default ({
     setup() {
         const fbStorage = getStorage();
         const night = 'night'
-        function getImage(image){
+        async function getImage(image){
             let imgRef = ref(fbStorage, image )
             getDownloadURL(imgRef)
             .then((url) => {
@@ -67,7 +67,7 @@ export default ({
                 console.log(error)
             });
         }
-        return { night,getImage }
+        return { night, getImage }
     },
 })
 </script>
