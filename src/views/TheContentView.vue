@@ -9,138 +9,10 @@
                 <template #date-range>Jan. 1-9</template>
                 <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
             </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-            </TheCard>
-            <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-                <template #title>TestTitle</template>
-                <template #rating>3.99</template>
-                <template #distance>TestDistance</template>
-                <template #date-range>Jan. 1-9</template>
-                <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
+            <TheCard v-for ='listing of listings' :key="listing.id" :img=listing.image>
+                <template #title>{{listing.title}}</template>
+                <template #rating>{{listing.rating}}</template>
+                <template #price>{{listing.pricePerNight}}</template>
             </TheCard>
         </div>
     </Suspense>
@@ -149,6 +21,8 @@
 <script>
 import TheCard from '../components/TheCard.vue';
 import { BIconImage }from 'bootstrap-icons-vue';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 export default({
     components: {
         TheCard,
@@ -156,12 +30,15 @@ export default({
     },
     setup() {
         const currentCurrency = 'USD';
+        const store = useStore()
+        const listings = computed(() => store.getters.getListings)
         function formatToCurrency(value) {
             return Intl.NumberFormat('en-US', { style: 'currency', currency: currentCurrency }).format(value);
         }
         return {
             formatToCurrency,
             currentCurrency,
+            listings,
         }
     }
 

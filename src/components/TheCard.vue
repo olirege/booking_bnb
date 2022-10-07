@@ -6,7 +6,8 @@
                 <div class="card-image-next"><BIconChevronRight></BIconChevronRight></div>
             </div>
             <BIconHeart class="card-image-like-btn"></BIconHeart>
-            <div class="image"><img :src="`/images/${img}`"/></div>
+            <!-- <div class="image"><img :src="`/images/${img}`"/></div> -->
+            <div class="image"><img :src="getImage(img)"/></div>
             <div class="images-index">
                 <BIconCircleFill></BIconCircleFill>
                 <BIconCircleFill></BIconCircleFill>
@@ -35,6 +36,7 @@ import {
     BIconChevronRight,
     BIconCircleFill
 } from 'bootstrap-icons-vue'
+import { getStorage, ref, getDownloadURL} from "firebase/storage"
 
 export default ({
     props: ['img'],
@@ -46,8 +48,26 @@ export default ({
         BIconCircleFill,
     },
     setup() {
+        const fbStorage = getStorage();
         const night = 'night'
-        return { night }
+        function getImage(image){
+            let imgRef = ref(fbStorage, image )
+            getDownloadURL(imgRef)
+            .then((url) => {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = 'blob';
+                xhr.onload = (event) => {
+                const blob = xhr.response;
+                };
+                xhr.open('GET', url);
+                xhr.send();
+                return url
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+        }
+        return { night,getImage }
     },
 })
 </script>
