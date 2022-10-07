@@ -11,14 +11,12 @@ app.use(router).use(store);
 
 app.mount("#app");
 
-// Import the functions you need from the SDKs you need
+
+//Firebase///
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBZjavOL5SpY7Gky-FueLN0rJNAVkhKH8E",
   authDomain: "booking-bnb-f473c.firebaseapp.com",
@@ -29,6 +27,19 @@ const firebaseConfig = {
   measurementId: "G-ET2V2RGZPM"
 };
 
-// Initialize Firebase
 const fb_app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(fb_app);
+const db = getFirestore(fb_app);
+
+//Fb_tests//
+import { collection, addDoc } from "firebase/firestore"; 
+
+try {
+  const docRef = await addDoc(collection(db, "listings"), {
+    location: "Maastricht, Netherlands",
+    pricePerNight: "131",
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
