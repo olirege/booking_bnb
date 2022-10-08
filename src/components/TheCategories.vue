@@ -2,7 +2,7 @@
     <div class="categories-wrapper">
         <div class="categories-prev" id="categories-btn"> <BIconChevronLeft/> </div>
         <div class="categories-content" >
-            <CategoryCard v-for="(card, index) of 15" :key="index">
+            <CategoryCard v-for="(card, index) of 18" :key="index">
                 <template #img>
                     <BIconHospital />
                 </template>
@@ -75,14 +75,13 @@ export default ({
     box-shadow: 0px 4px 3px -3px rgba(0,0,0,0.2);
     background-color: var(--color-background);
     height: 72px;
-    max-width: calc( 100% - 1.2em);
+    width: calc( 100% - 1.06em);
     position: fixed;
     top: 100px;
     left: 0;
     z-index: 100;
     gap: 5px;
     overflow:hidden;
-    width:100%;
  }
  #categories-btn{
     display:none;

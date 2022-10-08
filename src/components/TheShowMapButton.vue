@@ -1,25 +1,41 @@
 <template>
     <div class="show-map-button-wrapper">
-        <h1 class="show-map-button-text">{{text}}</h1>
-        <BIconMapFill></BIconMapFill>
+        <RouterLink to="/map" v-if="currentRoute.name == 'home'">
+            <div class="show-map-button">
+                <h1 class="show-map-button-text">{{text.showMap}}</h1>
+                <BIconMapFill></BIconMapFill>
+            </div>
+        </RouterLink>
+        <RouterLink to="/" v-if="currentRoute.name == 'map'">
+            <div class="show-map-button">
+                <h1 class="show-map-button-text">{{text.showList}}</h1>
+                <BIconPostcardFill></BIconPostcardFill>
+            </div>
+        </RouterLink>
     </div>
 </template>
 <script>
-import {BIconMapFill} from 'bootstrap-icons-vue'
+import { RouterLink , useRoute } from "vue-router";
+import {BIconMapFill, BIconPostcardFill} from 'bootstrap-icons-vue'
 export default ({
     components:{
         BIconMapFill,
+        RouterLink,
+        BIconPostcardFill,
     },
     setup() {
-        const text = 'Show Map'
+        const text = {showMap:'Show Map', showList:'Show List'}
+        const currentRoute = useRoute()
+        
         return {
             text,
+            currentRoute
         }
     },
 })
 </script>
 <style scoped>
-    .show-map-button-wrapper{
+    .show-map-button{
         position:fixed;
         bottom: 10%;
         left: calc(50% - 5rem);
@@ -34,9 +50,19 @@ export default ({
         border-radius: 25px;
         z-index: 100;
     }
+    .show-map-button > * {
+        text-decoration: none;
+        color: var(--color-heading);
+    }
+
     .show-map-button-text{
         font-size: 1rem;
         font-weight: 500;
-        color: var(--color-heading);
+    }
+    .show-map-button-wrapper{
+        cursor:pointer;
+    }
+    .show-map-button:hover{
+        scale:1.05;
     }
 </style>

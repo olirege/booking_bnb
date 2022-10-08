@@ -66,13 +66,12 @@ export default ({
     align-content: center;
     background-color: var(--color-background);
     height: 100px;
-    width: calc( 100% - 1.2em);
+    width: calc( 100% - 1.06em);
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
  }
-
  .header-search{
     display:flex;
     justify-content: center;

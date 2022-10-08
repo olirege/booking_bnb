@@ -86,7 +86,7 @@ export default ({
     align-items: center;
     background-color: var(--color-background);
     height: 50px;
-    width: calc(100% - 1.3em);
+    width: calc(100% - 1.365em);
     position: fixed;
     bottom: 0;
     left: 0;

@@ -38,7 +38,3 @@ export default ({
   <TheShowMapButton></TheShowMapButton>
   <TheFooter></TheFooter>
 </template>
-
-<style scoped>
-
-</style>
