@@ -12,7 +12,7 @@
         <div class="options">
             <div class="option" id="host">
                 <h4>{{text.host}}</h4>
-                <div class="globe-wrapper"><BIconGlobe></BIconGlobe></div>
+                <div class="globe-wrapper"><BIconGlobe @click="addListing"></BIconGlobe></div>
             </div>
             <div class="user-button-wrapper">
                 <BIconList></BIconList>
@@ -24,6 +24,7 @@
 <script>
 import TheSearchBar from './TheSearchBar.vue'
 import { BIconGlobe,BIconList,BIconPersonCircle } from 'bootstrap-icons-vue'
+import {useStore} from 'vuex'
 export default ({
     components: {
         TheSearchBar,
@@ -32,11 +33,25 @@ export default ({
         BIconPersonCircle,
     },
     setup() {        
+        const store = useStore()
         const text = {
                     logo:'fartbnb',
                     host:'Become a host'}
+        function addListing(){
+            let payload= {
+                title: 'test',
+                pricePerNight: 100,
+                rating: 5,
+                distance: 5,
+                dateRange: 'test',
+                image: ['test']
+            }
+            store.dispatch('postListing',payload)
+
+        }
         return {
-            text
+            text,
+            addListing,
         }
     },
 })

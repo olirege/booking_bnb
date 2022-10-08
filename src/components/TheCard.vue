@@ -2,17 +2,14 @@
     <div class="card-wrapper">
         <div class="card-image">
             <div class="card-image-controls">
-                <div class="card-image-prev"><BIconChevronLeft></BIconChevronLeft></div>
-                <div class="card-image-next"><BIconChevronRight></BIconChevronRight></div>
+                <div class="card-image-prev" :id="'prev_' + listingData.id"><BIconChevronLeft></BIconChevronLeft></div>
+                <div class="card-image-next" :id="'next_' + listingData.id"><BIconChevronRight></BIconChevronRight></div>
             </div>
             <BIconHeart class="card-image-like-btn"></BIconHeart>
             <!-- <div class="image"><img :src="`/images/${img}`"/></div> -->
-            <div class="image"><img v-if="img" :src="getImage(img)"/></div>
-            <div class="images-index">
-                <BIconCircleFill></BIconCircleFill>
-                <BIconCircleFill></BIconCircleFill>
-                <BIconCircleFill></BIconCircleFill>
-                <BIconCircleFill></BIconCircleFill>
+            <div class="image"><img v-for="(image,index) of images" :key="'card-img_' + index" :src="image" :id="'card-img_' + listingData.id"/></div>
+            <div  class='images-index' v-if="images">
+                <BIconCircleFill v-for="(image,index) of images" :key=index :class="{'image-index-selected': index == selectedSlideIndex ? true : false, 'image-index': index != selectedSlideIndex ? true : false }"></BIconCircleFill>
             </div>
         </div>
         <div class="card-content">
@@ -36,10 +33,11 @@ import {
     BIconChevronRight,
     BIconCircleFill
 } from 'bootstrap-icons-vue'
-import { getStorage, ref, getDownloadURL} from "firebase/storage"
-
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ref as vueRef, onMounted } from 'vue'
+import {gsap} from 'gsap'
 export default ({
-    props: ['img'],
+    props: ['listingData'],
     components: {
         BIconStarFill,
         BIconHeart,
@@ -47,27 +45,100 @@ export default ({
         BIconChevronRight,
         BIconCircleFill,
     },
-    setup() {
-        const fbStorage = getStorage();
+    
+    setup(props) {
         const night = 'night'
-        async function getImage(image){
-            let imgRef = ref(fbStorage, image )
-            getDownloadURL(imgRef)
-            .then((url) => {
-                const xhr = new XMLHttpRequest();
-                xhr.responseType = 'blob';
-                xhr.onload = (event) => {
-                const blob = xhr.response;
-                };
-                xhr.open('GET', url);
-                xhr.send();
-                return url
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+        const images = vueRef([])
+        const selectedSlideIndex = vueRef(0)
+        async function getImages() {
+            const storage = getStorage();
+            for (let i = 0; i < props.listingData.imgs.length; i++) {
+                const imgRef = ref(storage, props.listingData.imgs[i]);
+                const url = await getDownloadURL(imgRef);
+                images.value.push(url);
+            }
         }
-        return { night, getImage }
+        onMounted(() => {
+            getImages().then(() =>{
+                return gsap.utils.toArray("#card-img_"+ props.listingData.id)
+            }).then( (slides) =>{
+                var slideDelay = 1.5;
+                var slideDuration = 0.3;
+                var snapX;
+                var prevButton = document.querySelector("#prev_" + props.listingData.id);
+                var nextButton = document.querySelector("#next_" + props.listingData.id);
+                var progressWrap = gsap.utils.wrap(0, 1);
+                 
+                var numSlides = slides.length;
+                if (numSlides > 1){
+                    gsap.set(slides, {
+                    xPercent: i => i * 100
+                    });
+
+                    var wrap = gsap.utils.wrap(-100, (numSlides - 1) * 100);
+                    var timer = gsap.delayedCall(slideDelay);
+
+                    var animation = gsap.to(slides, {
+                    xPercent: "+=" + (numSlides * 100),
+                    duration: 1,
+                    ease: "none",
+                    paused: true,
+                    repeat: -1,
+                    modifiers: {
+                        xPercent: wrap
+                    }
+                    });
+
+                    var proxy = document.createElement("div");
+                    var slideAnimation = gsap.to({}, {});
+                    var slideWidth = 0;
+                    var wrapWidth = 0;
+                    resize();
+
+                    window.addEventListener("resize", resize);
+
+                    prevButton.addEventListener("click", function() {
+                    animateSlides(1);
+                    });
+
+                    nextButton.addEventListener("click", function() {
+                    animateSlides(-1);
+                    });
+                }
+                function animateSlides(direction) {
+                    timer.restart(true);
+                    slideAnimation.kill();
+                    
+                    var x = snapX(gsap.getProperty(proxy, "x") + direction * slideWidth);
+                    slideAnimation = gsap.to(proxy, {
+                        x: x,
+                        duration: slideDuration,
+                        onUpdate: updateProgress
+                    });
+                    if(selectedSlideIndex.value < slides.length - 1){
+                        selectedSlideIndex.value -= direction
+                    }else{
+                        selectedSlideIndex.value = 0
+                    }
+                }
+
+                function updateProgress() { 
+                    animation.progress(progressWrap(gsap.getProperty(proxy, "x") / wrapWidth));
+                }
+                function resize() {
+                    var norm = (gsap.getProperty(proxy, "x") / wrapWidth) || 0;
+                    slideWidth = slides[0].offsetWidth;
+                    wrapWidth = slideWidth * numSlides;
+                    snapX = gsap.utils.snap(slideWidth);
+                    gsap.set(proxy, {
+                        x: norm * wrapWidth
+                    });
+                    animateSlides(0);
+                    slideAnimation.progress(1);
+                }
+            })
+        })
+        return { night,images,selectedSlideIndex }
     },
 })
 </script>
@@ -82,6 +153,7 @@ export default ({
         align-content: center;
         min-width: 15rem;
         min-height: 22rem;
+        max-height: 25rem;
         border-radius: 10px;
     }
     .card-image{
@@ -93,18 +165,20 @@ export default ({
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        overflow:hidden;
+        border-radius: 10px;
     }
     .card-image > .image{
+        display:flex;
+        flex-direction: row;
         width:100%;
         height:100%;
     }
     .card-image > .image > img{
+        position: absolute;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 10px;
-
     }
     .card-image > .card-image-like-btn{
         position: absolute;
@@ -170,11 +244,17 @@ export default ({
         align-items: center;
         align-content: center;
         z-index: 100;
-        font-size: 0.5em;
         gap:2px;
-        color: var(--color-background);
-        cursor: pointer;
     }
+    .image-index-selected{
+        color: var(--color-background);
+        font-size: 0.5em;
+    }
+    .image-index{
+        color: #ccc;
+        font-size: 0.3em;
+    }
+
     .card-content{
         display: flex;
         flex-direction: column;

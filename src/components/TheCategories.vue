@@ -2,31 +2,7 @@
     <div class="categories-wrapper">
         <div class="categories-prev" id="categories-btn"> <BIconChevronLeft/> </div>
         <div class="categories-content" >
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test1
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test2
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test3
-                </template>
-            </CategoryCard>
-            <CategoryCard>
+            <CategoryCard v-for="(card, index) of 15" :key="index">
                 <template #img>
                     <BIconHospital />
                 </template>
@@ -34,104 +10,9 @@
                     longtext4
                 </template>
             </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test1
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test2
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test3
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    longtext4
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test1
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test2
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test3
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    longtext4
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test1
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test2
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    Test3
-                </template>
-            </CategoryCard>
-            <CategoryCard>
-                <template #img>
-                    <BIconHospital />
-                </template>
-                <template #title>
-                    longtext4
-                </template>
-            </CategoryCard>
-            <fade id="fade-left"/>
-            <fade id="fade-right"/>
+            <!-- <CategoryCardSkeleton v-for='(listing,index) of 18' :key="index"></CategoryCardSkeleton> -->
+            <div class = "fade" id="fade-left"></div>
+            <div class = "fade" id="fade-right"></div>
         </div>
         <div class="categories-next" id="categories-btn"><BIconChevronRight/></div>
         <div class="categories-filter" id="categories-btn"><BIconSliders/><h4>{{text.filter}}</h4></div>
@@ -144,12 +25,14 @@ import {
     BIconChevronLeft,
     BIconSliders } from 'bootstrap-icons-vue'
 import CategoryCard from './CategoryCard.vue'
+import CategoryCardSkeleton from './CategoryCardSkeleton.vue'
 import horizontalLoop from '../utils/helpers' 
 import {onMounted} from 'vue' 
 import {gsap} from "gsap"
 export default ({
     components: {
         CategoryCard,
+        CategoryCardSkeleton,
         BIconHospital,
         BIconChevronRight,
         BIconChevronLeft,
@@ -236,7 +119,7 @@ export default ({
     display: none;
     visibility: hidden;
 }
-fade {
+.fade {
     position: absolute;
 
     display: block;

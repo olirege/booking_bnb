@@ -1,41 +1,34 @@
 <template>
     <main class="content-wrapper">
-    <div class="cards-wrapper">
-        <!-- <TheCard :img = "'253a272b-19d0-4654-bd7a-77236eb8f67b.webp'" >
-            <template #title>TestTitle</template>
-            <template #rating>3.99</template>
-            <template #distance>TestDistance</template>
-            <template #date-range>Jan. 1-9</template>
-            <template #price>{{formatToCurrency(1334)}} {{currentCurrency}} </template>
-        </TheCard> -->
-        <Suspense>
-            <TheCard v-for ='listing of listings' :key="listing.id" :img=listing.image>
+        <div v-if='listings' class="cards-wrapper">
+            <TheCard v-for ='listing of listings' :key="listing.id" :listingData="{id:listing.id, imgs:listing.image}">
                 <template #title>{{listing.title}}</template>
                 <template #rating>{{listing.rating}}</template>
                 <template #price>{{formatToCurrency(listing.pricePerNight)}}</template>
             </TheCard>
-            <template #fallback>
-                <div class="loading">
-                    <h1> is loading</h1>
-                </div>
-            </template>
-        </Suspense>
-    </div>
+        </div>
+        <div v-else class="cards-wrapper">
+            <TheCardSkeleton v-for='(listing,index) of 9' :key="index"></TheCardSkeleton>
+        </div>
     </main>
 </template>
 <script>
 import TheCard from '../components/TheCard.vue';
+import TheCardSkeleton from '../components/TheCardSkeleton.vue';
 import { BIconImage }from 'bootstrap-icons-vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+
 export default({
     components: {
         TheCard,
         BIconImage,
+        TheCardSkeleton,
     },
     setup() {
         const currentCurrency = 'USD';
         const store = useStore()
+
         const listings = computed(() => store.getters.getListings)
         function formatToCurrency(value) {
             return Intl.NumberFormat('en-US', { style: 'currency', currency: currentCurrency }).format(value);

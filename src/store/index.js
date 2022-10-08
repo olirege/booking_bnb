@@ -1,7 +1,8 @@
 import { createStore } from "vuex";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc} from "firebase/firestore";
+
 const store = createStore({
   state() {
     return {
@@ -47,12 +48,17 @@ const store = createStore({
       const listings = [];
       parsedListings.forEach((data) => {
           const temp = new Object()
+          temp.id = data.id
           for(const [key,value] of Object.entries(data.data())){
               temp[key] = value
               }
           listings.push(temp);
       });
       context.commit('setListings',listings)
+    },
+    async postListing(context,payload) {
+      const db = context.getters.getDb
+      const docRef = await addDoc(collection(db, "listings"), payload);
     }
   },
 });
