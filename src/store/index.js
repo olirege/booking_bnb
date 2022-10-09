@@ -88,6 +88,7 @@ const store = createStore({
       onAuthStateChanged(auth, (user) => {
         if (user) {
           context.commit('setUser',user)
+          console.log("user is logged in")
         } else {
           context.dispatch('signInAnonymously')
         }
