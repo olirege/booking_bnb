@@ -2,12 +2,16 @@ import { createStore } from "vuex";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs, addDoc} from "firebase/firestore";
+import { getAuth, onAuthStateChanged, signInAnonymously  } from "firebase/auth";
 
 const store = createStore({
   state() {
     return {
       db: null,
-      listings: null
+      listings: null,
+      currentCurrency: "USD",
+      loginModalState: false,
+      user: null,
     }
   },
   mutations: {
@@ -17,6 +21,15 @@ const store = createStore({
     setListings(state,payload){
       return state.listings = payload
     },
+    setCurrentCurrency(state,payload){
+      return state.currentCurrency = payload
+    },
+    changeLoginModalState(state,payload){
+      return state.loginModalState = payload
+    },
+    setUser(state,payload){
+      return state.user = payload
+    },
   },
   getters: {
     getDb(state) {
@@ -25,6 +38,15 @@ const store = createStore({
     getListings(state) {
       return state.listings
     },
+    getCurrentCurrency(state) {
+      return state.currentCurrency
+    },
+    getLoginModalState(state) {
+      return state.loginModalState
+    },
+    getUser(state) {
+      return state.user
+    },  
   },
   actions: {
     async initFb(context) {
@@ -59,7 +81,30 @@ const store = createStore({
     async postListing(context,payload) {
       const db = context.getters.getDb
       const docRef = await addDoc(collection(db, "listings"), payload);
-    }
-  },
+    },
+    
+    async checkAuth(context) {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          context.commit('setUser',user)
+        } else {
+          context.dispatch('signInAnonymously')
+        }
+      });
+    },
+    async signInAnonymously(context) {
+      const auth = getAuth();
+      console.log("signing in anonymously")
+      const user = await signInAnonymously(auth)
+      context.commit('setUser',user)
+    },
+    async logOut(context) {
+      const auth = getAuth();
+      await auth.signOut()
+      context.dispatch('signInAnonymously')
+    },
+  }
 });
+
 export default store;

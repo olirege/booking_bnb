@@ -117,7 +117,26 @@ export default ({
         background-color:var(--color-background);
         color:black;
     }
-
+@media(max-width:347px){
+    .place-holder-wrapper > .place-holder > h2{
+        font-size: 0.5rem;
+        padding: 0 0.3rem 0 0.3rem;
+    }
+    .place-holder-wrapper > .place-holder{
+        font-size: 0.5rem;
+        padding: 0;
+    }
+}
+@media(min-width:348px) and (max-width: 455px){
+    .place-holder-wrapper > .place-holder > h2{
+        font-size: 0.6rem;
+        padding: 0 0.5rem 0 0.5rem;
+    }
+    .place-holder-wrapper > .place-holder{
+        font-size: 0.6rem;
+        padding: 0;
+    }
+}
 @media(min-width: 768px){
     .search-bar-wrapper{
         width: 25rem;

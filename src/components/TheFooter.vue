@@ -40,7 +40,7 @@
                 <BIconHeart></BIconHeart>
                 <h5>{{text.wish}}</h5>
             </span>
-            <span class="device-option">
+            <span class="device-option" @click="openLoginModal">
                 <BIconPersonCircle></BIconPersonCircle>
                 <h5>{{text.login}}</h5>
             </span>
@@ -49,6 +49,7 @@
 </template>
 <script>
 import { BIconGlobe, BIconCurrencyDollar, BIconChevronUp, BIconDot, BIconSearch,BIconHeart,BIconPersonCircle } from 'bootstrap-icons-vue';
+import {useStore} from 'vuex'
 export default ({
     components: {
         BIconGlobe,
@@ -60,6 +61,7 @@ export default ({
         BIconPersonCircle
     },
     setup() {
+        const store = useStore()
         const text = {
             search: 'Search',
             wish: 'Wish',
@@ -69,9 +71,13 @@ export default ({
             support:'Support',
             copyrights: '© 2021 All Rights Are Canned Preserved'
         }
+        function openLoginModal() {
+            store.commit('changeLoginModalState', true)
+        }
         
         return{
-            text
+            text,
+            openLoginModal
         }
         
     },
@@ -118,6 +124,9 @@ export default ({
     align-items: center;
     height: 50px;
     width: 50px;
+}
+.device-option:hover, .device-option.active {
+    color: var(--vt-c-firebrick);
 }
 .device-option > svg{
     font-size:20px;

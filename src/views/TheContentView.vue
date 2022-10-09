@@ -26,12 +26,16 @@ export default({
         TheCardSkeleton,
     },
     setup() {
-        const currentCurrency = 'USD';
+        const currentCurrency = computed(() => {
+            return store.getters.getCurrentCurrency;
+        });
         const store = useStore()
 
-        const listings = computed(() => store.getters.getListings)
+        const listings = computed(() => {
+            return store.getters.getListings
+        });
         function formatToCurrency(value) {
-            return Intl.NumberFormat('en-US', { style: 'currency', currency: currentCurrency }).format(value);
+            return Intl.NumberFormat('en-US', { style: 'currency', currency: currentCurrency.value }).format(value);
         }
         return {
             formatToCurrency,
@@ -43,6 +47,23 @@ export default({
 })
 </script>
 <style scoped>
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+.cards-wrapper {
+    display: grid;
+    grid-auto-rows: minmax(min-content, max-content);
+    grid-template-columns: repeat(var(--breakpoint-grid_columns,1), minmax(0,1fr));
+    grid-auto-flow:dense;
+    gap:var(--breakpoint-grid_row-gap,0) var(--breakpoint-grid_column-gap,0);
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+@media(min-width: 375px){
     .content-wrapper{
         display:flex;
         justify-content: center;
@@ -53,15 +74,5 @@ export default({
         margin: 0 calc(4rem - 1em) 0 4rem;
         
     }
-    .cards-wrapper{
-        display:grid;
-        grid-template-columns: repeat(var(--breakpoint-grid_columns,1), minmax(0,1fr));
-        grid-auto-rows: minmax(min-content, max-content);
-        grid-auto-flow:dense;
-        gap:var(--breakpoint-grid_row-gap,0) var(--breakpoint-grid_column-gap,0);
-        flex-wrap: wrap;
-        height: 100%;
-        width: 100%;
-        z-index: 1;
-    }
+}
 </style>

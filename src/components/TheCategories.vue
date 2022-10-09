@@ -75,7 +75,7 @@ export default ({
     box-shadow: 0px 4px 3px -3px rgba(0,0,0,0.2);
     background-color: var(--color-background);
     height: 72px;
-    width: calc( 100% - 1.06em);
+    width: calc( 100% - 1.15em);
     position: fixed;
     top: 100px;
     left: 0;
@@ -145,6 +145,7 @@ export default ({
         padding: 0 calc(2rem + 1em) 0 4rem;
         box-shadow: 0 0 0 0;
         height: 100px;
+        width: calc( 100% - 1.06em);
     }
     .categories-content{
         height:100px;

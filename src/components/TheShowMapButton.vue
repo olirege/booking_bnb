@@ -46,13 +46,13 @@ export default ({
         gap: 5px;
         width: 10rem;
         height: 2.2rem;
-        background-color: #ccc;
+        background-color: var(--vt-c-black-soft);
         border-radius: 25px;
         z-index: 100;
     }
     .show-map-button > * {
         text-decoration: none;
-        color: var(--color-heading);
+        color: var(--vt-c-white-soft);
     }
 
     .show-map-button-text{

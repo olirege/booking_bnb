@@ -12,46 +12,47 @@
         <div class="options">
             <div class="option" id="host">
                 <h4>{{text.host}}</h4>
-                <div class="globe-wrapper"><BIconGlobe @click="addListing"></BIconGlobe></div>
+                <div class="globe-wrapper"><BIconGlobe></BIconGlobe></div>
             </div>
-            <div class="user-button-wrapper">
+            <div class="user-button-wrapper" @click='toggleLoginTabMenu'>
                 <BIconList></BIconList>
-                <BIconPersonCircle></BIconPersonCircle>
-            </div>
+                <BIconPersonCircle v-if ='!user || user.isAnonymous'></BIconPersonCircle>
+                <BIconPersonCheckFill v-else></BIconPersonCheckFill>
+            </div>    
         </div>
     </div>
+    <LoginTabMenu v-if="showLoginTabMenu" @close-login-menu='toggleLoginTabMenu'></LoginTabMenu>
 </template>
 <script>
 import TheSearchBar from './TheSearchBar.vue'
-import { BIconGlobe,BIconList,BIconPersonCircle } from 'bootstrap-icons-vue'
+import LoginTabMenu from './LoginTabMenu.vue'
+import { BIconGlobe,BIconList,BIconPersonCircle,BIconPersonCheckFill } from 'bootstrap-icons-vue'
 import {useStore} from 'vuex'
+import { ref,computed } from 'vue'
 export default ({
     components: {
         TheSearchBar,
         BIconGlobe,
         BIconList,
         BIconPersonCircle,
+        BIconPersonCheckFill,
+        LoginTabMenu,
     },
     setup() {        
         const store = useStore()
+        const user = computed(() => store.getters.getUser)
         const text = {
                     logo:'fartbnb',
                     host:'Become a host'}
-        function addListing(){
-            let payload= {
-                title: 'test',
-                pricePerNight: 100,
-                rating: 5,
-                distance: 5,
-                dateRange: 'test',
-                image: ['test']
-            }
-            store.dispatch('postListing',payload)
-
+        const showLoginTabMenu = ref(false)
+        function toggleLoginTabMenu(state){
+            showLoginTabMenu.value = state
         }
         return {
             text,
-            addListing,
+            showLoginTabMenu,
+            toggleLoginTabMenu,
+            user,
         }
     },
 })
@@ -64,9 +65,9 @@ export default ({
     justify-content: space-between;
     flex-direction:row;
     align-content: center;
+    width: calc( 100% - 1.15em);
     background-color: var(--color-background);
     height: 100px;
-    width: calc( 100% - 1.06em);
     position: fixed;
     top: 0;
     left: 0;
@@ -91,10 +92,11 @@ export default ({
     display:none;
     visibility:hidden
 }
-
- @media(min-width: 768px){
+@media(min-width: 768px){
     .header-wrapper{
         border-bottom: 1px solid var(--color-border);
+        width: calc( 100% - 1.06em);
+
     }
     .header-logo{
         visibility:visible;
