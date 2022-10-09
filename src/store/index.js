@@ -88,7 +88,9 @@ const store = createStore({
       onAuthStateChanged(auth, (user) => {
         if (user) {
           context.commit('setUser',user)
-          console.log("user is logged in")
+          if (user.isAnonymous){
+            console.log("Anonymous user signed-in");
+          }
         } else {
           context.dispatch('signInAnonymously')
         }
@@ -96,14 +98,13 @@ const store = createStore({
     },
     async signInAnonymously(context) {
       const auth = getAuth();
-      console.log("signing in anonymously")
-      const user = await signInAnonymously(auth)
-      context.commit('setUser',user)
+      const result = await signInAnonymously(auth)
+      context.commit('setUser',result.user)
     },
     async logOut(context) {
       const auth = getAuth();
       await auth.signOut()
-      context.dispatch('signInAnonymously')
+      console.log(context.state.user)
     },
   }
 });

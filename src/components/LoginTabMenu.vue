@@ -1,4 +1,4 @@
-<template>
+<template @click="$emit('close-login-menu',false)">
     <div class='login-tab-wrapper'>
         <div class="tabs" v-if ='user && user.isAnonymous'>
             <h4 class="tab" @click="$emit('close-login-menu',false); openLoginModal();">{{text.signup}}</h4>

@@ -23,6 +23,7 @@
                     </div>
             </div>
         </div>
+        <h4 class="errorMessage">{{errorMessage.replace('Firebase:','')}}</h4>
         <div class="login-modal-btn-wrapper">
             <div class="login-modal-btn" @click="login">{{text.login}}</div>
         </div>
@@ -55,6 +56,7 @@ export default({
     setup() {
         const email = ref('')
         const password = ref('')
+        const errorMessage = ref('')
         const store = useStore()
         function closeLoginModal(){
             store.commit('changeLoginModalState',false)
@@ -77,7 +79,7 @@ export default({
             })
             .catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                errorMessage.value = error.message;
             });
         }
         async function loginWithGoogle(){
@@ -92,7 +94,7 @@ export default({
                 closeLoginModal()
             }).catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                errorMessage.value = error.message;
                 const email = error.email;
                 const credential = GoogleAuthProvider.credentialFromError(error);
             });
@@ -104,6 +106,7 @@ export default({
             closeLoginModal,
             login,
             loginWithGoogle,
+            errorMessage
         }
     },
 })
@@ -186,7 +189,6 @@ export default({
     width: 100%;
     border: 1.2px solid var(--color-border-darker);
     border-radius: 10px;
-    margin-bottom: 1rem;
 }
 .login-modal-input-wrapper {
     display: flex;
@@ -223,7 +225,14 @@ export default({
 .login-modal-input input:focus-visible{
     outline: none;
 }
-
+.errorMessage{
+    color: red;
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+    height:1.5rem;
+}
 .login-modal-btn-wrapper {
     display: flex;
     flex-direction: column;

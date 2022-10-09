@@ -17,7 +17,7 @@
             <div class="user-button-wrapper" @click='toggleLoginTabMenu'>
                 <BIconList></BIconList>
                 <BIconPersonCircle v-if ='!user || user.isAnonymous'></BIconPersonCircle>
-                <BIconPersonCheckFill v-else></BIconPersonCheckFill>
+                <BIconPersonCheckFill v-if ='user && !user.isAnonymous'></BIconPersonCheckFill>
             </div>    
         </div>
     </div>
@@ -48,6 +48,7 @@ export default ({
         function toggleLoginTabMenu(state){
             showLoginTabMenu.value = state
         }
+        
         return {
             text,
             showLoginTabMenu,
