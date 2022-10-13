@@ -155,6 +155,7 @@ export default ({
         min-height: 22rem;
         max-height: 25rem;
         border-radius: 10px;
+        cursor: pointer;
     }
     .card-image{
         position: relative;

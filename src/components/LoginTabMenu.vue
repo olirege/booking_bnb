@@ -1,5 +1,5 @@
-<template @click="$emit('close-login-menu',false)">
-    <div class='login-tab-wrapper'>
+<template>
+    <div class='login-tab-wrapper' @focusout="$emit('close-login-menu',false)" tabindex="0" id="login-tab-wrapper">
         <div class="tabs" v-if ='user && user.isAnonymous'>
             <h4 class="tab" @click="$emit('close-login-menu',false); openLoginModal();">{{text.signup}}</h4>
             <h4 class="tab" @click="$emit('close-login-menu',false); openLoginModal();" >{{text.login}}</h4>
@@ -12,7 +12,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 export default ({
     emits: ["close-login-menu"],
     setup() {
@@ -31,6 +31,9 @@ export default ({
             profile: 'Profile',
             logout: 'Log out'
         }
+        onMounted(() => {
+            document.getElementById('login-tab-wrapper').focus()
+        })
         return {
             text,
             openLoginModal,
@@ -57,6 +60,9 @@ export default ({
     border-radius: 10px;
     z-index:200;
     padding: 1rem 0;
+}
+.login-tab-wrapper:focus{
+    outline: none;
 }
 .tabs{
     display: flex;

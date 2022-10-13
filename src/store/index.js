@@ -11,7 +11,11 @@ const store = createStore({
       listings: null,
       currentCurrency: "USD",
       loginModalState: false,
+      regionModalState: false,
+      checkInModalState: false,
+      guestsModalState: false,
       user: null,
+      selectedDates: null,
     }
   },
   mutations: {
@@ -27,9 +31,21 @@ const store = createStore({
     changeLoginModalState(state,payload){
       return state.loginModalState = payload
     },
+    changeCheckInModalState(state,payload){
+      return state.checkInModalState = payload
+    },
+    changeRegionModalState(state,payload){
+      return state.regionModalState = payload
+    },
+    changeGuestsModalState(state,payload){
+      return state.guestsModalState = payload
+    },
     setUser(state,payload){
       return state.user = payload
     },
+    setSelectedDates(state,payload){
+      return state.selectedDates = payload
+    }
   },
   getters: {
     getDb(state) {
@@ -44,9 +60,22 @@ const store = createStore({
     getLoginModalState(state) {
       return state.loginModalState
     },
+    getRegionModalState(state) {
+      return state.regionModalState
+    },
+    getCheckInModalState(state) {
+      return state.checkInModalState
+    },
+    getGuestsModalState(state) {
+      return state.guestsModalState
+    },
     getUser(state) {
       return state.user
-    },  
+    },
+    getSelectedDates(state) {
+      return state.selectedDates
+    }
+      
   },
   actions: {
     async initFb(context) {
@@ -104,7 +133,6 @@ const store = createStore({
     async logOut(context) {
       const auth = getAuth();
       await auth.signOut()
-      console.log(context.state.user)
     },
   }
 });

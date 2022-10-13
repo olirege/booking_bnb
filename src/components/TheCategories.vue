@@ -55,7 +55,10 @@ export default ({
                 activeElement = element;
             }
             });
-            cards.forEach((box, i) => box.addEventListener("click", () => loop.toIndex(i, {duration: 1, ease: "power1.inOut"})));
+            cards.forEach((box, i) => box.addEventListener("click", () => {
+                console.log(loop)
+                loop.toIndex(i, {duration: 1, ease: "power1.inOut"})
+            }));
             document.querySelector(".categories-next").addEventListener("click", () => loop.next({duration: 1, ease: "power1.inOut"}));
             document.querySelector(".categories-prev").addEventListener("click", () => loop.previous({duration: 1, ease: "power1.inOut"}));
         })

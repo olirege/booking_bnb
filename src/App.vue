@@ -32,7 +32,7 @@ export default ({
         store.dispatch('checkAuth')
         return {
             loginModalState,
-        }
+                }
     },
 })
 

@@ -6,7 +6,7 @@
                 <h1>{{text.logo}}</h1>
             </span>
         </div>
-        <div class="header-search">
+        <div class="header-search" @click="activateSearchBar">
             <TheSearchBar />
         </div>
         <div class="options">
@@ -17,7 +17,8 @@
             <div class="user-button-wrapper" @click='toggleLoginTabMenu'>
                 <BIconList></BIconList>
                 <BIconPersonCircle v-if ='!user || user.isAnonymous'></BIconPersonCircle>
-                <BIconPersonCheckFill v-if ='user && !user.isAnonymous'></BIconPersonCheckFill>
+                <BIconPersonCheckFill v-if ='user && !user.isAnonymous && !user.photoURL'></BIconPersonCheckFill>
+                <img :src="user.photoURL" v-if ='user && !user.isAnonymous && user.photoURL' class="user-photo" />
             </div>    
         </div>
     </div>
@@ -29,6 +30,7 @@ import LoginTabMenu from './LoginTabMenu.vue'
 import { BIconGlobe,BIconList,BIconPersonCircle,BIconPersonCheckFill } from 'bootstrap-icons-vue'
 import {useStore} from 'vuex'
 import { ref,computed } from 'vue'
+import {gsap} from 'gsap'
 export default ({
     components: {
         TheSearchBar,
@@ -41,25 +43,66 @@ export default ({
     setup() {        
         const store = useStore()
         const user = computed(() => store.getters.getUser)
+        const mm = gsap.matchMedia()
         const text = {
                     logo:'fartbnb',
-                    host:'Become a host'}
+                    host:'Become a host',
+                    }
         const showLoginTabMenu = ref(false)
         function toggleLoginTabMenu(state){
             showLoginTabMenu.value = state
         }
-        
+        function activateSearchBar(){
+            let searchBarTL = gsap.timeline()
+            mm.add(
+            {
+            isMonitor: "(min-height: 800px)",
+            isLaptop: "(min-height: 599px) and (max-height: 799px)",
+            },
+            (context) => {
+                let { isMonitor, isLaptop } = context.conditions;
+                searchBarTL.to('.header-wrapper',{
+                    height: 200,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                })
+                searchBarTL.to('.big-search-bar-container-wrapper',{
+                    display:'flex',
+                    visibility:'visible',
+                    y:100,
+                    duration:0.1,
+                    ease:'power4.outIn'
+                })
+                searchBarTL.to('.search-bar-wrapper',{
+                    scale:1.2,
+                    duration:0.4,
+                    ease:'power4.out'
+                },'<')
+                searchBarTL.to('.search-bar-wrapper',{
+                    display:'none',
+                    visibility:'hidden',
+                })
+                searchBarTL.to('.big-search-bar-wrapper',{
+                    display:'flex',
+                    visibility:'visible',
+                },'<')
+                searchBarTL.to('.search-options',{
+                    display:'flex',
+                    visibility:'visible',
+                },'<')
+            })
+        }
         return {
             text,
             showLoginTabMenu,
             toggleLoginTabMenu,
             user,
+            activateSearchBar,
         }
     },
 })
 </script>
 <style scoped>
-
 
  .header-wrapper{
     display:flex;
@@ -72,26 +115,34 @@ export default ({
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 150;
  }
  .header-search{
     display:flex;
+    flex: 0 1 auto;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100px;
     width: 100%;
     margin: 0 2rem 0 2rem;
-
+    transition: justify-content 0.5s ease-in-out;
  }
 
 .header-logo{
+    flex: 1 0 50px;
     visibility:hidden;
     display:none
 }
-
 .options{
     display:none;
-    visibility:hidden
+    visibility:hidden;
+    z-index:152;
+}
+.user-photo{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-left: 0.5rem;
 }
 @media(min-width: 768px){
     .header-wrapper{
@@ -99,11 +150,16 @@ export default ({
         width: calc( 100% - 1.06em);
 
     }
+    .header-search{
+        justify-content: flex-start;
+
+    }
     .header-logo{
         visibility:visible;
         display:flex;
         flex-direction: row;
         align-items: center;
+        height:100px;
         margin-left: 4rem;
     }
     .logo-wrapper{
@@ -120,41 +176,13 @@ export default ({
     .logo{
         height: 100%;
     }
-    .user-button-wrapper{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        gap: 5px;
-        height:45px;
-        border-radius: 10px;
-        width: 100px;
-        border: 1px solid var(--color-border);
-        transition: all 0.2s ease-in-out;
-        padding: 10px;
-    }
-    .user-button-wrapper:hover{
-        box-shadow: 2px 2px 5px 3px var(--color-border);
-    }
-
-    .user-button-wrapper > *{
-        height: 100%;
-        width: 100%;
-    }
- }
-
- @media(min-width:950px){
-    .logo-wrapper > h1{
-        visibility: visible;
-        display:block;
-        font-size: 24px;
-    }
     .options{
         visibility:visible;
         display:flex;
         flex-direction: row;
         align-items: center;
         margin-right: 3rem;
+        height:100px;
     }
     .option{
         display:flex;
@@ -185,6 +213,38 @@ export default ({
     }
     .option > *:hover{
         background-color: #e6e5e5;
+    }
+    .user-button-wrapper{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+        height:45px;
+        border-radius: 10px;
+        width: 100px;
+        border: 1px solid var(--color-border);
+        transition: all 0.2s ease-in-out;
+        padding: 10px;
+    }
+    .user-button-wrapper:hover{
+        box-shadow: 2px 2px 5px 3px var(--color-border);
+    }
+
+    .user-button-wrapper > *{
+        height: 100%;
+        width: 100%;
+    }
+ }
+
+ @media(min-width:1024px){
+    .header-search{
+        justify-content:center;
+    }
+    .logo-wrapper > h1{
+        visibility: visible;
+        display:block;
+        font-size: 24px;
     }
  }
 </style>
