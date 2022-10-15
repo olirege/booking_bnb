@@ -8,6 +8,7 @@
         </div>
         <div class="header-search" @click="activateSearchBar">
             <TheSearchBar />
+            <TheBigSearchModal v-if="showBigSearchModalState" @close-big-search-modal="closeBigSearchModal"></TheBigSearchModal>
         </div>
         <div class="options">
             <div class="option" id="host">
@@ -27,6 +28,7 @@
 <script>
 import TheSearchBar from './TheSearchBar.vue'
 import LoginTabMenu from './LoginTabMenu.vue'
+import TheBigSearchModal from "./TheBigSearchModal.vue";
 import { BIconGlobe,BIconList,BIconPersonCircle,BIconPersonCheckFill } from 'bootstrap-icons-vue'
 import {useStore} from 'vuex'
 import { ref,computed } from 'vue'
@@ -39,6 +41,7 @@ export default ({
         BIconPersonCircle,
         BIconPersonCheckFill,
         LoginTabMenu,
+        TheBigSearchModal,
     },
     setup() {        
         const store = useStore()
@@ -52,45 +55,63 @@ export default ({
         function toggleLoginTabMenu(state){
             showLoginTabMenu.value = state
         }
+        const showBigSearchModalState = ref(false)
         function activateSearchBar(){
             let searchBarTL = gsap.timeline()
             mm.add(
             {
-            isMonitor: "(min-height: 800px)",
-            isLaptop: "(min-height: 599px) and (max-height: 799px)",
+            isMonitor: "(min-width: 770px) and (min-height: 800px)",
+            isLaptop: "(min-width: 770px) and (min-height: 599px) and (max-height: 799px)",
+            isTablet: "(max-width: 769px)",
             },
             (context) => {
-                let { isMonitor, isLaptop } = context.conditions;
-                searchBarTL.to('.header-wrapper',{
-                    height: 200,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                })
-                searchBarTL.to('.big-search-bar-container-wrapper',{
-                    display:'flex',
-                    visibility:'visible',
-                    y:100,
-                    duration:0.1,
-                    ease:'power4.outIn'
-                })
-                searchBarTL.to('.search-bar-wrapper',{
-                    scale:1.2,
-                    duration:0.4,
-                    ease:'power4.out'
-                },'<')
-                searchBarTL.to('.search-bar-wrapper',{
-                    display:'none',
-                    visibility:'hidden',
-                })
-                searchBarTL.to('.big-search-bar-wrapper',{
-                    display:'flex',
-                    visibility:'visible',
-                },'<')
-                searchBarTL.to('.search-options',{
-                    display:'flex',
-                    visibility:'visible',
-                },'<')
+                let { isTablet,isMonitor, isLaptop } = context.conditions;
+                if (isMonitor || isLaptop){
+                    searchBarTL.to('.header-wrapper',{
+                        height: 200,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    })
+                    searchBarTL.to('.big-search-bar-container-wrapper',{
+                        display:'flex',
+                        visibility:'visible',
+                        y:100,
+                        duration:0.1,
+                        ease:'power4.outIn'
+                    })
+                    searchBarTL.to('.search-bar-wrapper',{
+                        scale:1.2,
+                        duration:0.4,
+                        ease:'power4.out'
+                    },'<')
+                    searchBarTL.to('.search-bar-wrapper',{
+                        display:'none',
+                        visibility:'hidden',
+                    })
+                    searchBarTL.to('.big-search-bar-wrapper',{
+                        display:'flex',
+                        visibility:'visible',
+                    },'<')
+                    searchBarTL.to('.search-options',{
+                        display:'flex',
+                        visibility:'visible',
+                    },'<')
+                }else if(isTablet){
+                    showBigSearchModalState.value = true
+                    searchBarTL.fromTo('.big-search-modal-wrapper',{
+                        y:-1000,
+                    },
+                    {
+                        y:0,
+                        duration:0.5,
+                        ease:'power4.out'
+                    })
+                }
             })
+        }
+        function closeBigSearchModal(){
+            console.log('closeBigSearchModal')
+            showBigSearchModalState.value = false
         }
         return {
             text,
@@ -98,6 +119,8 @@ export default ({
             toggleLoginTabMenu,
             user,
             activateSearchBar,
+            showBigSearchModalState,
+            closeBigSearchModal,
         }
     },
 })
