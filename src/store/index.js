@@ -9,13 +9,21 @@ const store = createStore({
     return {
       db: null,
       listings: null,
-      currentCurrency: "USD",
+      currentCurrency: "CAD",
       loginModalState: false,
       regionModalState: false,
       checkInModalState: false,
       guestsModalState: false,
+      headerState: true,
       user: null,
+      selectedRoom: null,
       selectedDates: null,
+      selectedGuests: {
+        'Adults': 1,
+        "Children": 0,
+        "Infants": 0,
+        "Pets": 0,
+      }
     }
   },
   mutations: {
@@ -40,12 +48,21 @@ const store = createStore({
     changeGuestsModalState(state,payload){
       return state.guestsModalState = payload
     },
+    changeHeaderState(state,payload){
+      return state.headerState = payload
+    },
     setUser(state,payload){
       return state.user = payload
     },
     setSelectedDates(state,payload){
       return state.selectedDates = payload
-    }
+    },
+    setSelectedRoom(state,payload){
+      return state.selectedRoom = payload
+    },
+    setSelectedGuests(state,payload){
+      return state.selectedGuests = payload
+    },
   },
   getters: {
     getDb(state) {
@@ -74,6 +91,15 @@ const store = createStore({
     },
     getSelectedDates(state) {
       return state.selectedDates
+    },
+    getSelectedRoom(state) {
+      return state.selectedRoom
+    },
+    getSelectedGuests(state) {
+      return state.selectedGuests
+    },
+    getHeaderState(state) {
+      return state.headerState
     }
       
   },
@@ -134,6 +160,13 @@ const store = createStore({
       const auth = getAuth();
       await auth.signOut()
     },
+    async loadSelectedRoom(context,payload) {
+      context.getters.getListings.forEach((listing) => {
+        if (listing.id === payload) {
+          context.commit('setSelectedRoom',listing)
+        }
+      })
+    }
   }
 });
 

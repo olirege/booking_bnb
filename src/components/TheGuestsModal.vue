@@ -6,11 +6,11 @@
                 <h3 class="guest-age">{{guest.age}}</h3>
             </div>
             <div class="counter">
-                <div class="counter-btn" :class="{'counter-btn-disabled':counters[guest.type] == 0}" @click="decrement">
+                <div class="counter-btn" :class="{'counter-btn-disabled':counters[guest.type] == 0}" @click="decrement(guest.type)">
                     <BIconDashCircle></BIconDashCircle>
                 </div>
                 <h2 class="counter-value">{{counters[guest.type]}}</h2>
-                <div class="counter-btn" @click="increment">
+                <div class="counter-btn" @click="increment(guest.type)">
                     <BIconPlusCircle></BIconPlusCircle>
                 </div>
             </div>
@@ -19,6 +19,7 @@
 </template>
 <script>
 import {reactive,onMounted} from 'vue'
+import { useStore } from 'vuex'
 import { BIconDashCircle, BIconPlusCircle } from 'bootstrap-icons-vue'
 export default ({
     emits:['close-guests-modal'],
@@ -27,8 +28,9 @@ export default ({
         BIconPlusCircle
     },
     setup() {
+        const store = useStore()
         const counters = reactive({
-            'Adults': 0,
+            'Adults': 1,
             "Children": 0,
             "Infants": 0,
             "Pets": 0,
@@ -51,11 +53,15 @@ export default ({
             }],
         }
         function increment(type) {
-            counters[type] += 1
-            console.log(counters)
+           counters[type]++
+              store.commit('setSelectedGuests',counters)
         }
-        function decrement() {
-            counters[type] -= 1
+        function decrement(type) {
+            if(counters[type] > 1) {
+                counters[type]--
+                store.commit('setSelectedGuests',counters)
+            }
+            store.commit('setSelectedGuests',counters)
         }
         onMounted(() => {
             document.getElementById('guests-modal-container').focus()

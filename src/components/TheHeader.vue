@@ -7,8 +7,12 @@
             </span>
         </div>
         <div class="header-search" @click="activateSearchBar">
-            <TheSearchBar />
-            <TheBigSearchModal v-if="showBigSearchModalState" @close-big-search-modal="closeBigSearchModal"></TheBigSearchModal>
+            <TheSearchBar  @close-big-search-bar="closeBigSearchBar"/>
+            <Teleport to='body'>
+                <Transition name="slide-up" appear>
+                    <TheBigSearchModal v-if="showBigSearchModalState" @close-big-search-modal="closeBigSearchModal"></TheBigSearchModal>
+                </Transition>
+            </Teleport>
         </div>
         <div class="options">
             <div class="option" id="host">
@@ -31,6 +35,7 @@ import LoginTabMenu from './LoginTabMenu.vue'
 import TheBigSearchModal from "./TheBigSearchModal.vue";
 import { BIconGlobe,BIconList,BIconPersonCircle,BIconPersonCheckFill } from 'bootstrap-icons-vue'
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 import { ref,computed } from 'vue'
 import {gsap} from 'gsap'
 export default ({
@@ -45,18 +50,20 @@ export default ({
     },
     setup() {        
         const store = useStore()
+        const router = useRouter()
         const user = computed(() => store.getters.getUser)
-        const mm = gsap.matchMedia()
         const text = {
                     logo:'fartbnb',
                     host:'Become a host',
                     }
         const showLoginTabMenu = ref(false)
         function toggleLoginTabMenu(state){
+            console.log('toggleLoginTabMenu')
             showLoginTabMenu.value = state
         }
         const showBigSearchModalState = ref(false)
         function activateSearchBar(){
+            let mm = gsap.matchMedia()
             let searchBarTL = gsap.timeline()
             mm.add(
             {
@@ -67,6 +74,9 @@ export default ({
             (context) => {
                 let { isTablet,isMonitor, isLaptop } = context.conditions;
                 if (isMonitor || isLaptop){
+                    if(showBigSearchModalState.value){
+                        showBigSearchModalState.value = false
+                    }
                     searchBarTL.to('.header-wrapper',{
                         height: 200,
                         duration: 0.5,
@@ -79,14 +89,16 @@ export default ({
                         duration:0.1,
                         ease:'power4.outIn'
                     })
+                    // searchBarTL.to('.search-bar-wrapper',{
+                    //     scale:1.2,
+                    //     duration:0.4,
+                    //     ease:'power4.out'
+                    // },'<')
                     searchBarTL.to('.search-bar-wrapper',{
-                        scale:1.2,
-                        duration:0.4,
-                        ease:'power4.out'
-                    },'<')
-                    searchBarTL.to('.search-bar-wrapper',{
+                        opacity:0,
                         display:'none',
                         visibility:'hidden',
+                        duration:0.1,
                     })
                     searchBarTL.to('.big-search-bar-wrapper',{
                         display:'flex',
@@ -98,19 +110,12 @@ export default ({
                     },'<')
                 }else if(isTablet){
                     showBigSearchModalState.value = true
-                    searchBarTL.fromTo('.big-search-modal-wrapper',{
-                        y:-1000,
-                    },
-                    {
-                        y:0,
-                        duration:0.5,
-                        ease:'power4.out'
-                    })
                 }
             })
         }
+        function closeBigSearchBar(){
+        }
         function closeBigSearchModal(){
-            console.log('closeBigSearchModal')
             showBigSearchModalState.value = false
         }
         return {
@@ -121,6 +126,7 @@ export default ({
             activateSearchBar,
             showBigSearchModalState,
             closeBigSearchModal,
+            closeBigSearchBar,
         }
     },
 })
@@ -167,7 +173,14 @@ export default ({
     border-radius: 50%;
     margin-left: 0.5rem;
 }
-@media(min-width: 768px){
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: all 0.5s ease;
+}
+.slide-up-enter-from, .slide-up-leave-to {
+  transform: translateY(100%);
+}
+@media(min-width: 879px){
+    
     .header-wrapper{
         border-bottom: 1px solid var(--color-border);
         width: calc( 100% - 1.06em);
@@ -175,7 +188,7 @@ export default ({
     }
     .header-search{
         justify-content: flex-start;
-
+        margin:0;
     }
     .header-logo{
         visibility:visible;

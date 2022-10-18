@@ -4,6 +4,7 @@
             <TheCard v-for ='listing of listings' :key="listing.id" :listingData="{id:listing.id, imgs:listing.image}">
                 <template #title>{{listing.title}}</template>
                 <template #rating>{{listing.rating}}</template>
+                <template #date-range>{{listing.dateRange}}</template>
                 <template #price>{{formatToCurrency(listing.pricePerNight)}}</template>
             </TheCard>
         </div>

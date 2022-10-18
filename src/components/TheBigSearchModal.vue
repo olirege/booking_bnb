@@ -1,92 +1,90 @@
 <template>
-    <Teleport to='body'>
-        <div class="big-search-modal-wrapper">
-            <div class="big-search-modal">
-                <div class='big-search-modal-header'>
-                    <div class="big-search-modal-close-btn" @click ="$emit('close-big-search-modal')">
-                        <BIconX></BIconX>
+    <div class="big-search-modal-wrapper">
+        <div class="big-search-modal">
+            <div class='big-search-modal-header'>
+                <div class="big-search-modal-close-btn" @click ="$emit('close-big-search-modal')">
+                    <BIconX></BIconX>
+                </div>
+                <div class="big-search-modal-tabs">
+                    <div class="big-search-modal-tab">
+                        <h2>{{text.stayTab}}</h2>
                     </div>
-                    <div class="big-search-modal-tabs">
-                        <div class="big-search-modal-tab">
-                            <h2>{{text.stayTab}}</h2>
-                        </div>
-                        <div class="big-search-modal-tab">
-                            <h2>{{text.experienceTab}}</h2>
-                        </div>
+                    <div class="big-search-modal-tab">
+                        <h2>{{text.experienceTab}}</h2>
                     </div>
                 </div>
-                <div class="big-search-modal-content-container">
-                    <div class="big-search-modal-content" id="big-search-where" @click="collapsible">
-                        <div class="big-search-modal-content-header-collapsed">
-                            <h2>{{text.where.headerCollapsed}}</h2>
-                            <p>{{text.where.search}}</p>
-                        </div>
-                        <div class="big-search-modal-content-header">
-                            <h2>{{text.where.header}}</h2>
-                        </div>
-                        <div class="big-search-modal-content-body">
-                            <div class="big-search-modal-search">
-                                <BIconSearch />
-                                <input :placeholder="text.where.searchPlaceHolder" />
-                            </div>
-                            <div class="region-component-wrapper">
-                                <TheRegionComponent />
-                            </div>
-                        </div>
+            </div>
+            <div class="big-search-modal-content-container">
+                <div class="big-search-modal-content" id="big-search-where" @click="collapsible">
+                    <div class="big-search-modal-content-header-collapsed">
+                        <h2>{{text.where.headerCollapsed}}</h2>
+                        <p>{{text.where.search}}</p>
                     </div>
-                    <div class="big-search-modal-content" id="big-search-when" @click="collapsible">
-                        <div class="big-search-modal-content-header-collapsed">
-                            <h2>{{text.when.headerCollapsed}}</h2>
-                            <p>{{text.when.search}}</p>
-                        </div>
-                        <div class="big-search-modal-content-header">
-                            <h2>{{text.when.header}}</h2>
-                        </div>
-                        <div class="big-search-modal-content-body">
-                            <div class="calendar-component-wrapper">
-                                <TheCalendarComponent />
-                            </div>
-                            <div class="big-search-modal-content-body-footer" id="big-search-when-body-footer">
-                                <div class="skip-btn">
-                                    <h2>{{text.skip}}</h2>
-                                </div>
-                                <div class="next-btn-wrapper">
-                                <div class='next-btn'>
-                                    <h2>{{text.next}}</h2>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="big-search-modal-content-header">
+                        <h2>{{text.where.header}}</h2>
                     </div>
-                    </div>
-                    <div class="big-search-modal-content" id="big-search-who" @click="collapsible">
-                        <div class="big-search-modal-content-header-collapsed">
-                            <h2>{{text.who.headerCollapsed}}</h2>
-                            <p>{{text.who.search}}</p>
-                        </div>
-                        <div class="big-search-modal-content-header">
-                            <h2>{{text.who.header}}</h2>
-                        </div>
-                        <div class="big-search-modal-content-body">
-                            <div class="guests-component-wrapper">
-                                <TheGuestsComponent />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="big-search-modal-footer" id="big-search-footer">
-                    <div class="clear-btn">
-                        <h2>{{text.clear}}</h2>
-                    </div>
-                    <div class="search-btn-wrapper">
-                        <div class='search-btn'>
+                    <div class="big-search-modal-content-body">
+                        <div class="big-search-modal-search">
                             <BIconSearch />
-                            <h2>{{text.search}}</h2>
+                            <input :placeholder="text.where.searchPlaceHolder" />
+                        </div>
+                        <div class="region-component-wrapper">
+                            <TheRegionComponent />
+                        </div>
+                    </div>
+                </div>
+                <div class="big-search-modal-content" id="big-search-when" @click="collapsible">
+                    <div class="big-search-modal-content-header-collapsed">
+                        <h2>{{text.when.headerCollapsed}}</h2>
+                        <p>{{text.when.search}}</p>
+                    </div>
+                    <div class="big-search-modal-content-header">
+                        <h2>{{text.when.header}}</h2>
+                    </div>
+                    <div class="big-search-modal-content-body">
+                        <div class="calendar-component-wrapper">
+                            <TheCalendarComponent />
+                        </div>
+                        <div class="big-search-modal-content-body-footer" id="big-search-when-body-footer">
+                            <div class="skip-btn">
+                                <h2>{{text.skip}}</h2>
+                            </div>
+                            <div class="next-btn-wrapper" @click ='whenOnNext'>
+                            <div class='next-btn'>
+                                <h2>{{text.next}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="big-search-modal-content" id="big-search-who" @click="collapsible">
+                    <div class="big-search-modal-content-header-collapsed">
+                        <h2>{{text.who.headerCollapsed}}</h2>
+                        <p>{{text.who.search}}</p>
+                    </div>
+                    <div class="big-search-modal-content-header">
+                        <h2>{{text.who.header}}</h2>
+                    </div>
+                    <div class="big-search-modal-content-body">
+                        <div class="guests-component-wrapper">
+                            <TheGuestsComponent />
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="big-search-modal-footer" id="big-search-footer">
+                <div class="clear-btn">
+                    <h2>{{text.clear}}</h2>
+                </div>
+                <div class="search-btn-wrapper">
+                    <div class='search-btn'>
+                        <BIconSearch />
+                        <h2>{{text.search}}</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-    </Teleport>
+    </div>
 </template>
 <script>
 import {BIconSearch,BIconX} from 'bootstrap-icons-vue'
@@ -171,9 +169,26 @@ export default({
                 expanded[0] = id
             }
         }
+        function whenOnNext(){
+            let whenContent = document.getElementById(expanded[0])
+            whenContent.querySelector('.big-search-modal-content-header-collapsed').style.display = 'flex'
+            whenContent.querySelector('.big-search-modal-content-header').style.display = 'none'
+            whenContent.querySelector('.big-search-modal-content-body').style.display = 'none'
+            whenContent.classList.remove("big-search-modal-content-active")
+            whenContent.style.height = '4rem'
+            
+            let whoContent = document.getElementById('big-search-who')
+            whoContent.style.display = 'block'
+            document.getElementById("big-search-footer").style.display = 'flex'
+            whoContent.style.height = '26rem'
+            whoContent.querySelector('.big-search-modal-content-header-collapsed').style.display = 'none'
+            whoContent.querySelector('.big-search-modal-content-header').style.display = 'flex'
+            whoContent.querySelector('.big-search-modal-content-body').style.display = 'flex'
+        }
         return {
             text,
-            collapsible
+            collapsible,
+            whenOnNext
         }
     }
 })

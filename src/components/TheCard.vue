@@ -6,13 +6,12 @@
                 <div class="card-image-next" :id="'next_' + listingData.id"><BIconChevronRight></BIconChevronRight></div>
             </div>
             <BIconHeart class="card-image-like-btn"></BIconHeart>
-            <!-- <div class="image"><img :src="`/images/${img}`"/></div> -->
-            <div class="image"><img v-for="(image,index) of images" :key="'card-img_' + index" :src="image" :id="'card-img_' + listingData.id"/></div>
+            <div class="image" @click="routerPushToRooms"><img v-for="(image,index) of images" :key="'card-img_' + index" :src="image" :id="'card-img_' + listingData.id"/></div>
             <div  class='images-index' v-if="images">
                 <BIconCircleFill v-for="(image,index) of images" :key=index :class="{'image-index-selected': index == selectedSlideIndex ? true : false, 'image-index': index != selectedSlideIndex ? true : false }"></BIconCircleFill>
             </div>
         </div>
-        <div class="card-content">
+        <div class="card-content" @click="routerPushToRooms">
             <div class="card-content-title"><h1><slot name="title"></slot></h1>
                 <div class="rating">
                     <BIconStarFill></BIconStarFill>
@@ -36,6 +35,8 @@ import {
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ref as vueRef, onMounted } from 'vue'
 import {gsap} from 'gsap'
+import {useRouter} from 'vue-router'
+import { useStore } from 'vuex';
 export default ({
     props: ['listingData'],
     components: {
@@ -50,6 +51,7 @@ export default ({
         const night = 'night'
         const images = vueRef([])
         const selectedSlideIndex = vueRef(0)
+        const store = useStore()
         async function getImages() {
             const storage = getStorage();
             for (let i = 0; i < props.listingData.imgs.length; i++) {
@@ -138,12 +140,23 @@ export default ({
                 }
             })
         })
-        return { night,images,selectedSlideIndex }
+        const router = useRouter()
+        const routerPushToRooms = () => {
+            router.push({ name: 'room', params: { id: props.listingData.id } })
+            store.dispatch('loadSelectedRoom', props.listingData.id)
+        }
+        return { night,images,selectedSlideIndex,routerPushToRooms }
     },
 })
 </script>
 
 <style scoped>
+    a {
+        text-decoration: none;
+        color: inherit;
+        width:100%;
+        height:100%;
+    }
     .card-wrapper{
         display: flex;
         flex-direction: column;
@@ -198,10 +211,10 @@ export default ({
     .card-image-controls{
         opacity: 0;
         position: absolute;
-        top: 0;
+        top: calc(50% - 2rem);
         left: 0;
         width: calc(100% - 20px);
-        height: 100%;
+        height: 2rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;

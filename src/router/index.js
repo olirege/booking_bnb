@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TheContentView from "../views/TheContentView.vue";
 import TheMapView from "../views/TheMapView.vue";
+import TheRoomView from '../views/TheRoomView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,6 +15,11 @@ const router = createRouter({
       name: "map",
       component: TheMapView,
     },
+    {
+      path: "/rooms/:id",
+      name: "room",
+      component: TheRoomView,
+    }
   ],
 });
 
