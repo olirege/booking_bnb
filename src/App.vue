@@ -37,6 +37,7 @@ export default ({
         
         router.beforeEach((to, from, next) => {
             if(to.name === 'room') {
+                TheCategoriesState.value = false
                 window.addEventListener('resize', () => {
                     if(window.innerWidth > 820) {
                         TheFooterState.value = true
@@ -46,8 +47,8 @@ export default ({
                         TheHeaderState.value = false
                     }
                 })
-                TheCategoriesState.value = false
-            } else if (from.name === 'room') {
+            }
+            if (from.name === 'room') {
                 TheCategoriesState.value = true
                 window.removeEventListener('resize', () => {
                     if(window.innerWidth > 820) {
@@ -58,6 +59,14 @@ export default ({
                         TheHeaderState.value = false
                     }
                 })
+            }
+            if (to.name === 'payment') {
+                TheCategoriesState.value = false
+                TheFooterState.value = false
+            }
+            if (from.name === 'payment') {
+                TheCategoriesState.value = true
+                TheFooterState.value = true
             }
             next()
         })

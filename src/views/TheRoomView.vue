@@ -182,7 +182,7 @@
                     <div class="price-container">
                         <div class="price-container-header">
                             <div class="price-container-title">
-                                <h3>{{formatToCurrency(selectedRoom.pricePerNight)}} {{currentCurrency}}</h3>
+                                <h3>{{formatToCurrency(selectedRoom.pricePerNight)}}</h3>
                                 <span>{{text.perNight}}</span>
                             </div>
                             <div class="price-container-ratings-reviews">
@@ -222,32 +222,34 @@
                         </div>
                         <TheCheckInModal v-show="showCheckInModalState" @close-checkin-modal="closeCheckInModal"></TheCheckInModal>
                         <TheGuestsModal v-show="showGuestsModalState" @close-guests-modal="closeGuestsModal"></TheGuestsModal>
-                        <div class="reserve-btn">
-                            <span>{{text.reserve}}</span>
-                        </div>
+                        <RouterLink :to="{name: 'payment'}">
+                            <div class="reserve-btn">
+                                <span>{{text.reserve}}</span>
+                            </div>
+                        </RouterLink>
                         <h3 class="charge-reminder">{{text.noChargeYet}}</h3>
                         <div class="price-breakdown-container" v-if="selectedDates">
                             <div class="price-breakdown">
                                 <div class="price-breakdown-row">
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight)}} {{currentCurrency}} x {{numberOfDays}} {{text.perNight}}</span>
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays)}} {{currentCurrency}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight)}} x {{numberOfDays}} {{text.perNight}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays)}}</span>
                                 </div>
                                 <div class="price-breakdown-row">
                                     <span>{{text.serviceFee}}</span>
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.1)}} {{currentCurrency}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.1)}}</span>
                                 </div>
                                 <div class="price-breakdown-row">
                                     <span>{{text.cleaningFee}}</span>
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.05)}} {{currentCurrency}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.05)}}</span>
                                 </div>
                                 <div class="price-breakdown-row">
                                     <span>{{text.taxes}}</span>
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.15)}} {{currentCurrency}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 0.15)}}</span>
                                 </div>
                                 
                                 <div class="price-breakdown-footer">
                                     <span>{{text.total}}</span>
-                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 1.30)}} {{currentCurrency}}</span>
+                                    <span>{{formatToCurrency(selectedRoom.pricePerNight * numberOfDays * 1.30)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -271,9 +273,11 @@
                     <span>{{selectedRoom.rating}}</span>
                 </div>
             </div>
+            <RouterLink :to="{name: 'payment'}">
             <div class="reserve-btn">
                 <span>{{text.reserve}}</span>
             </div>
+            </RouterLink>
         </div>
     </div>
 </div>
@@ -291,6 +295,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ref as vueRef, onMounted } from 'vue'
 import TheCheckInModal from '../components/TheCheckInModal.vue'
 import TheGuestsModal from '../components/TheGuestsModal.vue'
+import {RouterLink} from 'vue-router'
 export default ({
     components: {
         BIconUpload,
@@ -1073,6 +1078,10 @@ export default ({
 }
 .media-header, .media-footer{
     display:none;
+}
+a{
+    text-decoration: none;
+    color: var(--vt-c-black);
 }
 @media (max-width: 824px){
     .media-header{

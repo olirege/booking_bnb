@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import TheContentView from "../views/TheContentView.vue";
 import TheMapView from "../views/TheMapView.vue";
 import TheRoomView from '../views/TheRoomView.vue';
+import ThePaymentView from '../views/ThePaymentView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,6 +20,11 @@ const router = createRouter({
       path: "/rooms/:id",
       name: "room",
       component: TheRoomView,
+    },
+    {
+      path: "/payment",
+      name: "payment",
+      component: ThePaymentView,
     }
   ],
 });

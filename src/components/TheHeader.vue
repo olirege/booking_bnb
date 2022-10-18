@@ -1,11 +1,13 @@
 <template>
     <div class="header-wrapper">
+        <RouterLink :to="{name:'home'}">
         <div class="header-logo">
             <span class="logo-wrapper">
                 <img class="logo" src="../assets/logo.svg" alt="logo">
                 <h1>{{text.logo}}</h1>
             </span>
         </div>
+        </RouterLink>
         <div class="header-search" @click="activateSearchBar">
             <TheSearchBar  @close-big-search-bar="closeBigSearchBar"/>
             <Teleport to='body'>
@@ -35,7 +37,7 @@ import LoginTabMenu from './LoginTabMenu.vue'
 import TheBigSearchModal from "./TheBigSearchModal.vue";
 import { BIconGlobe,BIconList,BIconPersonCircle,BIconPersonCheckFill } from 'bootstrap-icons-vue'
 import {useStore} from 'vuex'
-import {useRouter} from 'vue-router'
+import {useRouter, RouterLink} from 'vue-router'
 import { ref,computed } from 'vue'
 import {gsap} from 'gsap'
 export default ({
